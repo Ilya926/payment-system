@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Перевод денег{% endblock %}
+
+{% block content %}
+<h2>Перевод денег</h2>
+<div style="max-width: 500px; margin: 0 auto;">
+    <form method="POST">
+        <label>Ваш ID: {{ current_user.user_id }} ({{ current_user.name }})</label>
+        <label>Баланс: {{ current_user.balance }} руб.</label>
+
+        <select name="to_user_id" required>
+            <option value="">Выберите получателя</option>
+            {% for user in users %}
+                {% if user.user_id != current_user.user_id %}
+                    <option value="{{ user.user_id }}">{{ user.name }} (ID: {{ user.user_id }})</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+
+        <input type="number" name="amount" step="0.01" placeholder="Сумма перевода" required>
+        <button type="submit" class="btn">Перевести</button>
+    </form>
+</div>
+{% endblock %}

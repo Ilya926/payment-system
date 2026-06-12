@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}История операций{% endblock %}
+
+{% block content %}
+<h2>История всех операций</h2>
+
+{% if transactions %}
+<table>
+    <thead>
+        <tr><th>ID</th><th>Отправитель</th><th>Получатель</th><th>Сумма</th><th>Статус</th><th>Дата</th></tr>
+    </thead>
+    <tbody>
+        {% for trans in transactions %}
+        <tr>
+            <td>{{ trans.trans_id }}</td>
+            <td>
+                {% if trans.from_user_id == 0 %}
+                    💳 Система
+                {% else %}
+                    {{ users[trans.from_user_id].name if trans.from_user_id in users else 'Неизвестно' }}
+                    (ID: {{ trans.from_user_id }})
+                {% endif %}
+            </td>
+            <td>
+                {% if trans.to_user_id in users %}
+                    {{ users[trans.to_user_id].name }}
+                {% endif %}
+                (ID: {{ trans.to_user_id }})
+            </td>
+            <td>{{ trans.amount }} руб.</td>
+            <td>✅ {{ trans.status }}</td>
+            <td>{{ trans.created_at }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Операций пока нет</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,119 @@
+{
+  "users": {
+    "1": {
+      "user_id": 1,
+      "name": "Илья",
+      "email": "kozhurin_ilya_08@mail.ru",
+      "password": "12345",
+      "balance": 101003.0
+    },
+    "2": {
+      "user_id": 2,
+      "name": "даниил",
+      "email": "daniil@mail.ru",
+      "password": "danii2007",
+      "balance": 1098901007.03
+    },
+    "3": {
+      "user_id": 3,
+      "name": "Даниил",
+      "email": "mendybaev10r@mail.ru",
+      "password": "123456",
+      "balance": 2000000.0
+    }
+  },
+  "transactions": [
+    {
+      "trans_id": 1,
+      "from": 0,
+      "to": 1,
+      "amount": 1000.0,
+      "status": "completed",
+      "payment_method": "internal",
+      "created_at": "2026-06-10 14:44:31"
+    },
+    {
+      "trans_id": 2,
+      "from": 0,
+      "to": 2,
+      "amount": 10.0,
+      "status": "completed",
+      "payment_method": "internal",
+      "created_at": "2026-06-10 15:14:03"
+    },
+    {
+      "trans_id": 3,
+      "from": 0,
+      "to": 2,
+      "amount": 0.03,
+      "status": "completed",
+      "payment_method": "internal",
+      "created_at": "2026-06-10 15:15:49"
+    },
+    {
+      "trans_id": 4,
+      "from": 2,
+      "to": 1,
+      "amount": 3.0,
+      "status": "completed",
+      "payment_method": "internal",
+      "created_at": "2026-06-10 15:17:04"
+    },
+    {
+      "trans_id": 5,
+      "from": 0,
+      "to": 2,
+      "amount": 1000.0,
+      "status": "completed",
+      "payment_method": "internal",
+      "created_at": "2026-06-10 17:05:56"
+    },
+    {
+      "trans_id": 6,
+      "from": 0,
+      "to": 2,
+      "amount": 100000000.0,
+      "status": "completed",
+      "payment_method": "internal",
+      "created_at": "2026-06-10 17:06:01"
+    },
+    {
+      "trans_id": 7,
+      "from": 2,
+      "to": 1,
+      "amount": 100000.0,
+      "status": "completed",
+      "payment_method": "internal",
+      "created_at": "2026-06-10 17:06:11"
+    },
+    {
+      "trans_id": 8,
+      "from": 0,
+      "to": 3,
+      "amount": 1000000.0,
+      "status": "completed",
+      "payment_method": "internal",
+      "created_at": "2026-06-10 17:26:19"
+    },
+    {
+      "trans_id": 9,
+      "from": 0,
+      "to": 2,
+      "amount": 1000000000.0,
+      "status": "completed",
+      "payment_method": "internal",
+      "created_at": "2026-06-12 18:24:33"
+    },
+    {
+      "trans_id": 10,
+      "from": 2,
+      "to": 3,
+      "amount": 1000000.0,
+      "status": "completed",
+      "payment_method": "internal",
+      "created_at": "2026-06-12 18:24:47"
+    }
+  ],
+  "next_user_id": 4,
+  "next_trans_id": 11
+}

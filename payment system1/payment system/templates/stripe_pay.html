@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оплата картой</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .payment-form {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 400px;
+        }
+        h2 { margin-bottom: 20px; color: #333; text-align: center; }
+        .amount {
+            text-align: center;
+            font-size: 24px;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        #card-element {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        #card-errors {
+            color: #f44336;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover { background: #5a67d8; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #667eea;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-form">
+        <h2>💳 Оплата картой</h2>
+        <div class="amount">Сумма: {{ amount_rub }} руб.</div>
+
+        <div id="card-element"></div>
+        <div id="card-errors"></div>
+
+        <button id="pay-button">Оплатить</button>
+        <a href="{{ url_for('dashboard') }}" class="back-link">← Вернуться</a>
+    </div>
+
+    <script>
+        // Инициализация Stripe
+        const stripe = Stripe('{{ publishable_key }}');
+        const elements = stripe.elements();
+        const card = elements.create('card', {
+            style: {
+                base: {
+                    fontSize: '16px',
+                    color: '#333',
+                    '::placeholder': { color: '#aaa' }
+                }
+            }
+        });
+        card.mount('#card-element');
+
+        const payButton = document.getElementById('pay-button');
+        const errorDiv = document.getElementById('card-errors');
+
+        payButton.addEventListener('click', async () => {
+            payButton.disabled = true;
+            payButton.textContent = 'Обработка...';
+            errorDiv.textContent = '';
+
+            const { paymentIntent, error } = await stripe.confirmCardPayment(
+                '{{ client_secret }}',
+                {
+                    payment_method: { card: card }
+                }
+            );
+
+            if (error) {
+                errorDiv.textContent = error.message;
+                payButton.disabled = false;
+                payButton.textContent = 'Оплатить';
+            } else if (paymentIntent.status === 'succeeded') {
+                // Перенаправляем на подтверждение
+                window.location.href = '/stripe/success?payment_intent_id={{ payment_intent_id }}';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
+<h2>Добро пожаловать, {{ user.name }}!</h2>
+<div class="balance">
+    💰 Ваш баланс: {{ balance }} руб.
+</div>
+
+<div style="margin: 20px 0;">
+    <form action="{{ url_for('deposit') }}" method="POST" style="display: inline;">
+        <input type="number" name="amount" step="0.01" placeholder="Сумма пополнения" required style="width: 200px;">
+        <button type="submit" class="btn">Пополнить</button>
+    </form>
+</div>
+
+<h3>Последние операции</h3>
+{% if transactions %}
+<table>
+    <thead>
+        <tr><th>ID</th><th>Тип</th><th>Сумма</th><th>Статус</th><th>Дата</th></tr>
+    </thead>
+    <tbody>
+        {% for trans in transactions[:5] %}
+        <tr>
+            <td>{{ trans.trans_id }}</td>
+            <td>
+                {% if trans.from_user_id == 0 %}
+                    ➕ Пополнение
+                {% elif trans.from_user_id == user.user_id %}
+                    ➖ Отправлено
+                {% else %}
+                    ➕ Получено
+                {% endif %}
+            </td>
+            <td>{{ trans.amount }} руб.</td>
+            <td>✅ {{ trans.status }}</td>
+            <td>{{ trans.created_at }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Операций пока нет</p>
+{% endif %}
+
+<div style="margin-top: 20px;">
+    <a href="{{ url_for('transfer') }}" class="btn">Сделать перевод</a>
+    <a href="{{ url_for('history') }}" class="btn">Вся история</a>
+</div>
+{% endblock %}
